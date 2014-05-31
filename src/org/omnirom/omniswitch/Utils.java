@@ -31,7 +31,6 @@ import android.hardware.input.InputManager;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.view.InputDevice;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
@@ -131,25 +130,17 @@ public class Utils {
         final KeyEvent upEvent = KeyEvent.changeAction(downEvent,
               KeyEvent.ACTION_UP);
 
-        handler.post(new Runnable(){
-            @Override
-            public void run() {
-                im.injectInputEvent(downEvent,InputManager.INJECT_INPUT_EVENT_MODE_ASYNC);
-            }});
+      handler.post(new Runnable(){
+          @Override
+          public void run() {
+              im.injectInputEvent(downEvent,InputManager.INJECT_INPUT_EVENT_MODE_ASYNC);
+          }});
 
-        handler.postDelayed(new Runnable(){
-            @Override
-            public void run() {
-                im.injectInputEvent(upEvent, InputManager.INJECT_INPUT_EVENT_MODE_ASYNC);
-            }}, 20);
-    }
-
-    public static void toggleImmersiveMode(Context context) {
-        boolean immersive = Settings.System.getInt(context.getContentResolver(),
-                Settings.System.IMMERSIVE_MODE, 0) == 1;
-
-        Settings.System.putInt(context.getContentResolver(),
-                Settings.System.IMMERSIVE_MODE, !immersive ? 1 : 0);
+      handler.postDelayed(new Runnable(){
+        @Override
+        public void run() {
+            im.injectInputEvent(upEvent, InputManager.INJECT_INPUT_EVENT_MODE_ASYNC);
+        }}, 20);
     }
 
     public static void removeFromFavorites(Context context, String item, List<String> favoriteList) {
